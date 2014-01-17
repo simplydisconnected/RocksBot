@@ -216,8 +216,7 @@ sub getOutput {
             $example = $1;      
             $example=~s/<br\/?>/ /gis;
             $example=~s/<.+?>//gis;
-            $example=~s/\n//g;
-        
+            $example=~s/\n//g;        
         }
     
         $def=~s/<br\/?>/ /gis;
