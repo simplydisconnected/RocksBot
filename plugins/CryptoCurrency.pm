@@ -1,6 +1,6 @@
 package plugins::CryptoCurrency;
 #---------------------------------------------------------------------------
-#    Copyright (C) 2013  egretsareherons@gmail.com
+#    Copyright (C) 2014  egretsareherons@gmail.com
 #    https://github.com/egretsareherons/RocksBot
 #
 #    This program is free software: you can redistribute it and/or modify
