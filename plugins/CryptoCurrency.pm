@@ -40,19 +40,76 @@ sub getOutput {
     my $options = $self->{options};
     my $output = "";
 
+    ## Dogecoin specific
+    if ($command eq 'dc'){
 
-    if ($command eq 'doge24'){
-        my $URL = "http://doge4.us/";
-        my $page = $self->getPage($URL);
-        $page=~m#(Dogecoin is .+?in the last 24 hours)#gs;
-        my $gain = $1;
-        $gain=~s/<.+?>//gis;
+        my $current_price = 0;
+        if ($self->hasFlag('24') || $self->hasFlag('usd')){
+            my $URL = "http://doge4.us/";
+            my $page = $self->getPage($URL);
+            $page=~m#(Dogecoin is .+?in the last 24 hours)#gs;
+            my $gain = $1;
+            $gain=~s/<.+?>//gis;
 
-        $page=~m#(1 Dogecoin =.+?US Dollars)#gs;
-        my $usd= $1;
-        $usd=~s/<.+?>//gis;
-        return $gain . '. ' . $usd . '.';
+            $page=~m#(1 Dogecoin =.+?US Dollars)#gs;
+            my $usd= $1;
+            $usd=~s/<.+?>//gis;
+
+            if ($self->hasFlag("24")){
+               return $gain . '. ' . $usd . '.';
+            }else{
+                $current_price = (split /=/, $usd)[1];
+                $current_price=~s/[A-Za-z ]//gis;
+            }
+        }
+
+        my $URL = 'http://dogechain.info/chain/Dogecoin/q/';
+
+        if (my $address = $self->hasFlagValue('balance')){
+            my $page = $self->getPage($URL . 'addressbalance/' . $address);
+            if ($self->hasFlag('usd')){
+                my $bal = sprintf("%.3f", $current_price * $page);
+                return "$page dogecoins (\$".$self->commify($bal).") at $address";
+                
+            }else{
+                return "$page dogecoins at $address";
+            }
+        }
+
+        if (my $address = $self->hasFlagValue('sent')){
+            my $page = $self->getPage($URL . 'getsentbyaddress/' . $address);
+            if ($self->hasFlag('usd')){
+                my $bal = sprintf("%.3f", $current_price * $page);
+                return "$page dogecoins (\$".$self->commify($bal).") sent from $address";
+                
+            }else{
+                return "$page dogecoins sent from $address";
+            }
+        }
+
+        if (my $address = $self->hasFlagValue('received')){
+            my $page = $self->getPage($URL . 'getreceivedbyaddress/' . $address);
+            if ($self->hasFlag('usd')){
+                my $bal = sprintf("%.3f", $current_price * $page);
+                return "$page dogecoins (\$".$self->commify($bal).") received at $address";
+            }else{
+                return "$page dogecoins received at $address";
+            }
+        }
+        
+        if ($self->hasFlag('total')){
+            my $page = $self->getPage($URL . 'totalbc');
+            if ($self->hasFlag('usd')){
+                my $bal = sprintf("%.3f", $current_price * $page);
+               return $self->commify(sprintf("%d", $page)) . " total dogecoins (\$".$self->commify($bal).") have been mined";
+            }else{
+               return $self->commify(sprintf("%d", $page)) . " total dogecoins have been mined";
+            }
+        }
+        
+        return $self->help($command);
     }
+
 
     if ($command ~~ @{$self->{types}}){
         my $URL = "http://bitinfocharts.com/$command";
@@ -75,9 +132,17 @@ sub getOutput {
     }
 }
 
+sub commify {
+    my $self = shift;
+    my $num  = shift;
+    $num = reverse $num;
+    $num=~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g;
+    return scalar reverse $num;
+}
+
 sub listeners{
     my $self = shift;
-    my @commands = ('doge24');
+    my @commands = ('dc');
 
     # push each currency from plugin_init as a command
     foreach my $type (@{$self->{types}}){
@@ -90,10 +155,11 @@ sub listeners{
 
 sub addHelp{
     my $self = shift;
-    $self->addHelpItem("[plugin_description]", "Get cryptocurrency price quotes from bitinfocharts.com.");
+    $self->addHelpItem("[plugin_description]", "Get cryptocurrency price quotes from bitinfocharts.com. Get some other dogecoin specific stuff too.");
     foreach my $type (@{$self->{types}}){
         $self->addHelpItem("[$type]", "Get a $type price quote from bitinfocharts.com");
     }
+    $self->addHelpItem("[dc]", "Dogecoin info.  Flags: -balance=<address> -sent=<address> -received=<address> -total -24");
 }
 
 1;
