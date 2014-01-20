@@ -159,7 +159,7 @@ sub addHelp{
     foreach my $type (@{$self->{types}}){
         $self->addHelpItem("[$type]", "Get a $type price quote from bitinfocharts.com");
     }
-    $self->addHelpItem("[dc]", "Dogecoin info.  Flags: -balance=<address> -sent=<address> -received=<address> -total -24");
+    $self->addHelpItem("[dc]", "Dogecoin info.  Flags: -balance=<address> -sent=<address> -received=<address> -total -24 [-usd includes \$USD values]");
 }
 
 1;
