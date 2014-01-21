@@ -189,7 +189,8 @@ sub ConnectToTwitter{
       consumer_key    => $self->{consumer_key}, 
       consumer_secret => $self->{consumer_secret},
         access_token => $self->{AccessToken},
-        access_token_secret => $self->{AccessTokenSecret}
+        access_token_secret => $self->{AccessTokenSecret},
+        ssl => 1
   );                                                                                            
     
 
