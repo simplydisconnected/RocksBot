@@ -111,7 +111,7 @@ sub getOutput {
 
     my $r;
     eval{
-        my $r = $nt->search( $options, { lang => 'en'});
+        $r = $nt->search( $options, { lang => 'en'});
     };
     
     if ($@){
