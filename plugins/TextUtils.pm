@@ -380,6 +380,21 @@ sub getOutput {
 
 
     ##
+    ##  Add or remove the nickname from the displayed line
+    ##
+    if ($cmd eq 'nonick'){
+        $self->suppressNick("true");
+        return ($options);
+    }   
+    
+    if ($cmd eq 'addnick'){
+        $self->suppressNick("false");
+        return ($options);
+    }
+   
+
+
+    ##
     ##  Cut
     ##
 
@@ -537,7 +552,7 @@ sub listeners{
    ##Command Listeners - put em here.  eg ['one', 'two']
    my @commands = ['rainbow', 'listcolors', 'color', 'echo','lc','uc','ucwords','cut',
                         'rtrim', 'ltrim', 'trim', 'tr','strpos','scramble', 'banner', 'ucsent',
-                        'bold', 'underline' ,'inverse', 'grep', 'publish'];
+                        'bold', 'underline' ,'inverse', 'grep', 'publish', 'nonick', 'addnick'];
 
     my @irc_events = [];
 
@@ -580,6 +595,8 @@ sub addHelp{
    $self->addHelpItem("[scramble]", "Scramble the letters in a string.  Usage: scramble [<-w><-m>] <string>.");
    $self->addHelpItem("[scramble][-w]", "Scramble each word within a string.  Usage: scramble -w <string>.");
    $self->addHelpItem("[scramble][-m]", "Scramble the order of the words in a string.  Usage: scramble -wm <string>.");
+   $self->addHelpItem("[addnick]", "Prepend user's nick to the output.");
+   $self->addHelpItem("[nonick]", "Suppress leading nick from output.");
 
 
 }
