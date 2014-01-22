@@ -50,6 +50,7 @@ sub getOutput {
             $page=~m#(Dogecoin is .+?in the last 24 hours)#gs;
             my $gain = $1;
             $gain=~s/<.+?>//gis;
+            $gain=~s/\-//gis;
 
             $page=~m#(1 Dogecoin =.+?US Dollars)#gs;
             my $usd= $1;
