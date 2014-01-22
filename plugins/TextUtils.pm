@@ -300,8 +300,8 @@ sub getOutput {
         my $pos = index($options, $pattern);
 
         if ($pos >= 0){
-            my $start = $pos - 40;
-            my $run = length($pattern) + 80;
+            my $start = $pos - 100;
+            my $run = length($pattern) + 200;
 
             if ($start < 0){
                 $start = 0;
