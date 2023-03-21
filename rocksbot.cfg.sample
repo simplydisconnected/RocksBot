@@ -36,7 +36,7 @@ CommandPrefix = '.'
 BotOwnerNick = YourNick 
 
 ; will be created for you. Full path, homie. 
-DatabaseFile = "/home/you/rocksbot/database.sqlite"
+DatabaseFile = "/RocksBot/data/database.sqlite"
 
 ; 3 is probably plenty for this. 
 NumWorkerThreads = 3
@@ -56,8 +56,8 @@ SpeedTraceLevel = 0
 ; will be removed if you exit using the shutdown command. Otherwise consider it there for 
 ; your convenience, so you can cat pid.txt | xargs kill.
 daemonize = 0
-daemon_logfile = "/home/you/rocksbot/log.log"
-daemon_pidfile = "/home/you/rocksbot/pid.txt"
+daemon_logfile = "/RocksBot/log.log"
+daemon_pidfile = "/RocksBot/pid.txt"
 
 ; which plugins should we not load?  comma separated list
 plugin_ignore_list = 

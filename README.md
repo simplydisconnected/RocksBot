@@ -11,19 +11,17 @@ Commands can be piped, similar to many *nix command shells.  (Example: To get a 
 
 Rocksbot is available according to the terms the GNU General Public License, version 3 (GPLv3).
 
-Installation
+Running in a Container
 ------------
 
-1.  Download and extract the package, or issue a git clone.
-2.  Create the makefile:  perl ./Makefile.PL
-3.  Run the makefile to install required packages: make
-4.  Copy rocksbot.cfg.sample to rocksbot.cfg. 
-5.  Edit rocksbot.cfg with your desired settings.
-6.  Execute the program with ./rocksbot.pl
+1.  Make sure you have docker installed for your operating system
+2.  Run bin/build.sh to build the image.
+3.  Copy rocksbot.cfg.sample to etc/rocksbot.cfg.
+4.  Edit rocksbot.cfg with your desired settings.
+5.  Run bin/create.sh to create the container.
+5.  Run docker start rocksbot and docker stop docker stop rocksbot to start and stop the bot.  You can also run docker logs -f rocksbot to monitor its output.
 
-See the "INSTALL" file for additional details.
-
-Note: All the installer does is attempt to install the missing perl modules. Free free to install them via cpan if you'd prefer.
+You can migrate an existing RocksBot into a container by copying database.sqlite into the data directory and rocksbot.cfg into the etc directory.  Take care to update the DatabaseFile, daemon_logfile and daemon_pidfile in your rocksbot.cfg to match rocksbot.cfg.sample.
 
 Getting started
 ---------------
